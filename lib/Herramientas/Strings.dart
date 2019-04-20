@@ -1,3 +1,3 @@
 class Strings{
-  static String url="http://192.168.43.238:3000/api/";
+  static String url="http://192.168.1.143:3000/api/";
 }

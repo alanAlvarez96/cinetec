@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'dart:async';
 import 'TDA/Funcion.dart';
 import 'Reservacion.dart';
+import 'Herramientas/Strings.dart';
 class Lista extends StatefulWidget{
   @override
   State<StatefulWidget> createState() {
@@ -14,6 +15,7 @@ class Lista extends StatefulWidget{
 class ListaState extends State<Lista>{
   final GlobalKey<ScaffoldState> _scaffoldKey= new GlobalKey<ScaffoldState>();
   List<Funcion> funciones= new List<Funcion>();
+  List respuesta;
   _showSnackBar(String texto){
     final snackBar= new SnackBar(
       content:new Text(texto),
@@ -48,13 +50,37 @@ class ListaState extends State<Lista>{
     String pelicula;
     // TODO: implement initState
     super.initState();
-    setState(() {
-      for(int i=0;i<10;i++){
-        pelicula="pelicula ${i}";
-        funcion=new Funcion(i, pelicula,"10:00","sala 2");
-        funciones.add(funcion);
+    cargar();
+  }
+  void cargar()async{
+    Future<String> getFunciones() async{
+      String ruta="${Strings.url}funciones/funciones";
+      Funcion funcion;
+      List<Funcion> funcionesaux= new List<Funcion>();
+      int i;
+      Map data;
+      final response= await http.get(Uri.encodeFull(ruta));
+      if(response.statusCode==200){
+        data=jsonDecode(response.body);
+        if(data['valid']==1){
+          respuesta=data['funciones'];
+          for(i=0;i<respuesta.length;i++){
+            funcion=new Funcion(respuesta[i]['idfuncion']
+                , respuesta[i]['titulo']
+                , respuesta[i]['horario']
+                , respuesta[i]['sala']
+                , respuesta[i]['idioma']);
+            funcionesaux.add(funcion);
+          }
+          setState(() {
+            funciones=funcionesaux;
+          });
+        }
       }
-    });
+      else
+        throw Exception("no se puedo realizar la peticion");
+    }
+    getFunciones();
   }
   @override
   Widget build(BuildContext context) {
@@ -72,7 +98,7 @@ class ListaState extends State<Lista>{
                   children: <Widget>[
                     new ListTile(
                       title: new Text(
-                        funciones[index].pelicula,
+                        funciones[index].titulo,
                         style: new TextStyle(
                             fontSize: 14.0, fontWeight: FontWeight.bold),
                       ),

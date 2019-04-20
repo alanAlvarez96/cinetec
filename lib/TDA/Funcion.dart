@@ -1,7 +1,8 @@
 class Funcion{
   num idFuncion;
-  String pelicula;
+  String titulo;
   String horario;
   String sala;
-  Funcion(this.idFuncion,this.pelicula,this.horario,this.sala);
+  String idioma;
+  Funcion(this.idFuncion,this.titulo,this.horario,this.sala,this.idioma);
 }
