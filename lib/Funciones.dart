@@ -5,6 +5,7 @@ import 'dart:async';
 import 'TDA/Funcion.dart';
 import 'Reservacion.dart';
 import 'Herramientas/Strings.dart';
+import 'Account.dart';
 class Lista extends StatefulWidget{
   @override
   State<StatefulWidget> createState() {
@@ -34,7 +35,9 @@ class ListaState extends State<Lista>{
         children: <Widget>[
           IconButton(
             icon:Icon(Icons.account_circle,color: Colors.white,),
-            onPressed: null,
+            onPressed:(){
+
+            }
           ),
           IconButton(
             icon:Icon(Icons.directions_run,color: Colors.white,),
@@ -89,7 +92,28 @@ class ListaState extends State<Lista>{
       home: Scaffold(
         backgroundColor: Colors.white,
         key: _scaffoldKey,
-        bottomNavigationBar: bottomMenu,
+        bottomNavigationBar: Container(
+          height:55.0,
+          child:BottomAppBar(
+            color:Colors.amber,
+            child:new Row(
+              mainAxisAlignment:MainAxisAlignment.spaceAround ,
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                IconButton(
+                    icon:Icon(Icons.account_circle,color: Colors.white,),
+                    onPressed:(){
+                      Navigator.push(context, MaterialPageRoute(builder:(BuildContext context)=>new UserAccount()));
+                    }
+                ),
+                IconButton(
+                  icon:Icon(Icons.directions_run,color: Colors.white,),
+                  onPressed: null,
+                ),
+              ],
+            ),
+          ) ,
+        ),
         body:ListView.builder(
           itemCount: funciones.length,
           itemBuilder: (BuildContext context,int index) {
@@ -116,7 +140,7 @@ class ListaState extends State<Lista>{
                                     fontWeight: FontWeight.normal))
                           ]),
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder:(BuildContext context)=>new Reservaciones(funciones[index].idFuncion)));
+                        Navigator.push(context, MaterialPageRoute(builder:(BuildContext context)=>new Reservaciones(funciones[index].idFuncion,funciones[index].titulo)));
                         //_showSnackBar("funcion ${funciones[index].idFuncion}");
                       },
                     )

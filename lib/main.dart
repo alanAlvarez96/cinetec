@@ -23,9 +23,9 @@ class AppState extends State<MyApp>{
           fontSize: 20.0
         ),
       ) ,
-      gradientBackground: new LinearGradient(colors: [Colors.white, Colors.green], begin: Alignment.center, end: Alignment.bottomCenter),
+      gradientBackground: new LinearGradient(colors: [Colors.amber, Colors.white], begin: Alignment.center, end: Alignment.bottomCenter),
       styleTextUnderTheLoader:  new TextStyle(),
-      loaderColor: Colors.red
+      loaderColor: Colors.blue
     );
   }
 
